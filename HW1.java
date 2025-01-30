@@ -1,4 +1,3 @@
-
 /*
  * *** Oscar Sanchez Huezca / Section 001 ***
  *
@@ -15,7 +14,7 @@ import java.util.Stack;
 
 public class HW1 {
 
-    /*
+    /**
      * Class LinkedList
      *
      * This class builds a singly linked list. Each node of the linked-list
@@ -46,12 +45,12 @@ public class HW1 {
         Node head;                // head of Linked-list
 
 
-        /*
+        /**
          * Method sortedInsert() - this method will insert a new node to the
          * linked list containing the value specific in teh parameter 'data'.
          * The newly inserted node will be inserted in sorted order within
          * the linked-list.
-         *
+         * @param data the value to insert
          */
         public void sortedInsert ( int data ) {
             Node new_node = new Node(data);
@@ -78,55 +77,72 @@ public class HW1 {
         }
 
 
-        /*
+        /**
          * Method removeElementsLT() - this method removes all nodes that contain a
          * value that is less than the provided parameter 'ltValue'.
          *
          * The method will invoke the method removeElements for each element
          * found in the linked-list that is less than thr parameter value passed.
+         * @parar  ltValue the threshold value; elements less than this will be removed
          */
-        public void removeElementsLT ( int ltValue ) {
-
-            // YOUR CODE GOES HERE
-
-            return;
+        public void removeElementsLT(int ltValue) {
+            while (head != null && head.data < ltValue) {
+                head = head.next;
+            }
+            Node current = head;
+            while (current != null && current.next != null) {
+                if (current.next.data < ltValue) {
+                    current.next = current.next.next;
+                } else {
+                    current = current.next;
+                }
+            }
         }
 
 
-        /*
+
+        /**
          * Method removeElement() - this method removes all nodes that contain a
          * value equal to the value the provided parameter 'value'.
+         * @param value the value to be removed
          */
 
-        public void removeElement ( int value ) {
-
-            // YOUR CODE GOES HERE
-
-            return;
+        public void removeElement(int value) {
+            while (head != null && head.data == value) {
+                head = head.next;
+            }
+            Node current = head;
+            while (current != null && current.next != null) {
+                if (current.next.data == value) {
+                    current.next = current.next.next;
+                } else {
+                    current = current.next;
+                }
+            }
         }
 
 
-        /*
+        /**
          * Method toString() - this is a helper method for printing / constructing
          * a string object from the linked-list.
+         * @return a string representation of the linked list
+
          */
-        public String toString () // Method to output the LinkedList as a String
-        {
-            String output = "[";
+        public String toString (){ // Method to output the LinkedList as a String
+            StringBuilder output = new StringBuilder("[");
             Node currNode = this.head;
             while (currNode != null) {
-                output += currNode.data + " ";
+                output.append(currNode.data).append(" ");
                 currNode = currNode.next;
-            }
-            return output.trim() + "]";
+                }
+            return output.toString().trim() + "]";
         }
-
-    } // End class LinkedList
-
+    }// end class LinkedList
 
 
 
-    /*
+
+    /**
      * Class Stacks
      *
      * This class utilizes the Java Common Framework Library Stack class.
@@ -146,7 +162,7 @@ public class HW1 {
 
     static class Stacks {
 
-        /*
+        /**
          * Method isPalindrome() - This method will return the boolean value 'true'
          * or 'false' on if the passed in parameter string is a palindrome or not.
          *
@@ -154,18 +170,26 @@ public class HW1 {
          * Moreover, spaces are ignore, so both 'race car' and 'racecar' are plaindromes.
          *
          * The method should utilize the provided Stack class.
+         * @param input the input string to check
+         * @return true if the input string is a palindrome, false otherwise
          */
         public static boolean isPalindrome(String input) {
-
             Stack<Character> stack = new Stack<>();
             input = input.toLowerCase().replaceAll("\\s+", "");
-
-            // Your CODE GOES HERE
-            return false;
+            boolean check= true;
+            for (char ch : input.toCharArray()) {
+                stack.push(ch);
+            }
+            for (char ch : input.toCharArray()) {
+                if (stack.pop() != ch) {
+                    check=false;
+                }
+            }
+            return check;
         }
 
 
-        /*
+        /**
          * Method findLargestk() - This method will return the largest index
          * position in the stack for the value specified by the parameter 'k'.
          *
@@ -178,14 +202,30 @@ public class HW1 {
          * destroy the passed in stack, meaning when the method returns, the passed in
          * stack should be identical to when this method is passed. One trick as you
          * pop elements off the passed in stack, place them in a temp stack. Then when
-         * completed, place them all back in teh original stack.
+         * completed, place them all back in the original stack.
+         * @param stack the stack to search
+         * @param k the value to find
+         * @return the largest index of k in the stack, or -1 if not found         
          */
         public static int findLargestK(Stack<Integer> stack, int k) {
+            Stack<Integer> tempStack = new Stack<>();
+            int index = -1;
+            int currentIndex = 0; 
+            while (!stack.isEmpty()) {
+                tempStack.push(stack.pop());
+            }
 
-            // YOUR CODE GOES HERE
-            return -1;
+            while (!tempStack.isEmpty()) {
+                int val = tempStack.pop();
+                if (val == k) {
+                    index = currentIndex;
+                }
+                stack.push(val);
+                currentIndex++;
+            }
+
+            return index;
         }
-
     }  // End class Stacks
 
 
@@ -200,14 +240,14 @@ public class HW1 {
      *********************************/
 
     public static int algorithmAnalysis1(int n, int m) {
-        int a = 0, b = 0;
-
-        for (int i=0; i < n; i++)
-            a+= Math.random();
-
-        for (int j=0; j < m; j++)
-            b+= Math.random();
-
+        int a = 0;
+        int b = 0;
+        for (int i = 0; i < n; i++)
+            a += Math.random();
+        for (int j = 0; j < m; j++)
+            b += Math.random();
+        return 3; // o(n+m) time, since the entire sequence runs constant time in both loops, depending on n+m, 
+        //and space o(1) since the only data structures are integers
         /*
          * Select the correct option listed below:
          *   1. O(N * M) time, O(1) space
@@ -215,20 +255,20 @@ public class HW1 {
          *   3. O(N + M) time, O(1) space
          *   4. O(N * M) time, O(N + M) space
          *
-         * TODO: return the answer (which option is correct), in the return statement
         */
 
         // RETURN THE CORRECT OPTION NUMBER LISTED ABOVE
-        return -1;
     }
 
 
     public static int algorithmAnalysis2(int n) {
         int i, j, k = 0;
-        for (i = n/2; i <= n; i++)
-            for ( j = 2; j <= n; j = j*2 )
-                k+= n/2;
-
+        for (i = n / 2; i <= n; i++)
+            for (j = 2; j <= n; j = j * 2)
+                k += n / 2;
+        return 2; // o(n log n) time, the outer loop runs in o(n).The inner loop doubles 'j' running in o(log n) time 
+        //and since the inner loop executes log(n) times, then the entire complexity is o(n log n)
+    }
         /*
          * Select the correct option listed below:
          *   1. O(N) time
@@ -236,12 +276,9 @@ public class HW1 {
          *   3. O(N^2) time
          *   4. O(N^2Log n) time
          *
-         * TODO: return the answer (which option is correct), in the return statement
          */
 
         // RETURN THE CORRECT OPTION LISTED ABOVE
-        return -1;
-    }
 
 }
 
